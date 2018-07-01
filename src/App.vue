@@ -1,29 +1,35 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+<div id="app" class="container">
+    <Sidebar :contacts="contacts.all()" />
+    <AppContent />
+</div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+<script>
+import AppContent from '@/components/AppContent';
+import Sidebar from '@/components/Sidebar';
+import Model from '@codeship/modelist';
+
+export default {
+    name: 'App',
+
+    components: {
+        AppContent,
+        Sidebar
+    },
+
+    data() {
+        return {
+            contacts: new Model({
+                setPrimaryKey: true,
+
+                data: [{ name: "Jane Doe" }, { name: "John Doe" }]
+            }),
+        };
+    },
+};
+</script>
+
+<style scss>
+@import './styles/page.scss';
 </style>
