@@ -1,9 +1,69 @@
 <template>
 <form @submit.prevent="submit">
-    <input v-model="name"
-        type="text" class="input" placeholder="Contact Name" required="true">
+    <input v-model="name" type="text" class="input" placeholder="Contact Name" required="true" id="name">
 
-    <button type="submit" class="btn">{{submitButtonText}}</button>
+    <div class="flex">
+        <div class="flex-1 pr-2">
+            <div class="input-block">
+                <label for="details">Details about first contact:</label>
+                <input type="text" class="input" v-model="contactDetails">
+            </div>
+
+            <div class="input-block">
+                <label for="input-label">Notes:</label>
+                <textarea class="textarea" v-model="contactNotes" rows="10"></textarea>
+            </div>
+            <div class="input-block">
+                <label class="input-label">Relationship Quality</label>
+                <div class="flex">
+                    <label for="good" class="flex-1 option bg-green-light">
+                        <input type="radio" id="good" value="good" v-model="quality">
+                        <span>Good</span>
+                    </label>
+                    <label for="okay" class="flex-1 option bg-orange-light">
+                        <input type="radio" id="okay" value="okay" v-model="quality">
+                        <span>Okay</span>
+                    </label>
+                    <label for="barely" class="flex-1 option bg-red-light">
+                        <input type="radio" id="barely" value="barely" v-model="quality">
+                        <span>Barely</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1 pl-2">
+            <template v-for="(src, key) in contact.main">
+                <div class="input-block" :key="key">
+                    <label :for="`contact.${key}`">{{ src.placeholder }}</label>
+                    <input
+                        type="text"
+                        v-model="src.value"
+                        class="input"
+                        :id="`contact.${key}`"
+                        :placeholder="src.placeholder"
+                    >
+                    <a :href="links[key]" target="_blank">{{ src.value }}</a>
+                </div>
+            </template>
+
+            <div class="input-block">
+                <label for="tags" class="input-label">Custom Tags <em>Seperated by comma</em></label>
+                <input type="text" class="input" v-model="tags">
+            </div>
+
+            <div class="tags">
+                <span class="tag" v-for="(tag, index) in availableTags" :key="index">
+                    {{ tag }}
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <button type="submit" class="btn">{{ submitButtonText }}</button>
 </form>
 </template>
 
@@ -17,7 +77,46 @@ export default {
 
     data () {
         return {
-            name: ""
+            name: "",
+            contact: {
+                main: {
+                    mail: {
+                        value: "",
+                        placeholder: "Email Address"
+                    },
+                    phone: {
+                        value: "",
+                        placeholder: "Phone Number"
+                    },
+                    twitter: {
+                        value: "",
+                        placeholder: "Twitter Handle"
+                    }
+                }
+            },
+            tags: "",
+            contactDetails: "",
+            contactNotes: "",
+            quality: ""
+        }
+    },
+
+    computed: {
+        links() {
+            return {
+                mail: `mailto:${this.contact.main.mail.value}`,
+                phone: `tel:${this.contact.main.phone.value}`,
+                twitter: `https://twitter.com/${this.contact.main.twitter.value}`
+            };
+        },
+
+        availableTags: {
+            get() {
+                return this.tags.length === 0 ? [] : this.tags.split(',');
+            },
+            set(value) {
+                this.tags = value;
+            }
         }
     },
 

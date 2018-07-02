@@ -1,19 +1,32 @@
 <template>
 <div id="sidebar" class="flex-1">
-    Render Contacts
-    <List :items="contacts" itemKey="name" type="contact" />
+    <header class="flex">
+        <span class="flex-grow">
+            <i class="fas fa-users"></i>Contacts {{ contacts.size }}
+        </span>
+        <router-link to="/">
+            <button class="flex-end">+ new contact</button>
+        </router-link>
+    </header>
+
+    <input type="text" class="input mt-2" placeholder="Search Name" v-model="filter">
+
+    <List :items="contacts.all()" itemKey="name" type="contact" />
 </div>
 </template>
 
 <script>
 
 import List from '@/components/general/List';
+import { mapGetters } from 'vuex';
 
 export default {
     name: 'Sidebar',
 
-    props: {
-        contacts: Array
+    data() {
+        return {
+            filter: ""
+        }
     },
 
     components: {
@@ -21,9 +34,7 @@ export default {
     },
 
     computed: {
-        reversedList() {
-            return reverse(this.contacts);
-        },
+        ...mapGetters(['contacts'])
     },
 }
 </script>

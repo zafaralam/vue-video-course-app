@@ -1,8 +1,17 @@
 @tailwind preflight;
 @tailwind utilities;
 
-html, body {
+html,
+body {
   @apply .bg-grey-lightest;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style: none;
 }
 
 a {
@@ -61,11 +70,10 @@ a {
   @apply .bg-grey-lighter .block .p-4 .rounded .w-full .mb-4;
 
   &-block {
-
   }
 
   &-label {
-    @apply .font-bold .py-2 .block
+    @apply .font-bold .py-2 .block;
   }
 }
 

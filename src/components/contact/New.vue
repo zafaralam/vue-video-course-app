@@ -7,6 +7,8 @@
 
 <script>
 import Form from "./Form";
+import { mapActions } from 'vuex';
+import { extractDetails } from '@/lib/transformers';
 
 export default {
   name: "New",
@@ -22,8 +24,10 @@ export default {
   computed: {},
 
   methods: {
+    ...mapActions(['addContact']),
     submit(data) {
-      console.log(data);
+      this.addContact(extractDetails(data));
+      //this.$store.dispatch('addContact', data);
     }
   }
 };

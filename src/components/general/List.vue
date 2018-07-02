@@ -3,11 +3,12 @@
         <Item
             v-if="any"
             v-for="item in items"
-            :key="item.id"
-        >
+            :key="item.id">
+
             <router-link :to="{ name: type, params:{ id: item.id }}" :class="type">
                 {{ item[itemKey] }}
             </router-link>
+
         </Item>
     </ul>
 </template>
@@ -15,6 +16,7 @@
 <script>
 export default {
     name: 'List',
+
     components: {
         Item: {
             name: 'Item',
@@ -23,6 +25,7 @@ export default {
             },
         },
     },
+
     props:{
         items: {
             type: Array,
@@ -37,6 +40,7 @@ export default {
             default: () => 'item',
         },
     },
+
     computed: {
         any() {
             return this.items.length > 0;
